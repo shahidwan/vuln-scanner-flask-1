@@ -61,7 +61,7 @@ class Utils:
 
   def is_version_latest(self):
     try:
-      resp = requests.get('https://raw.githubusercontent.com/krishpranav/vulnscannerflask/master/version.py', timeout=10)
+      resp = requests.get('https://raw.githubusercontent.com/obaidlone/vulscanner/master/version.py', timeout=10)
       repo_ver = resp.text.split("'")[1].replace('.', '')
       curr_ver = VERSION.replace('.', '').replace('\'', '')
       if int(repo_ver) > int(curr_ver):
@@ -145,9 +145,9 @@ class Integration:
         
       slack_data = {
           "color": '#000000',
-          "pretext":"<!channel> vulnscannerflask Notification",
+          "pretext":"<!channel> vulscanner Notification",
           "author_name": ':warning: Notification',
-          "title": 'vulnscannerflask Report',
+          "title": 'vulscanner Report',
           "fields": fields,
         }
       response = requests.post(hook, data=json.dumps(slack_data))

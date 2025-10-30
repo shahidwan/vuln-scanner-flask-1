@@ -3,7 +3,7 @@ import logging
 
 from config import LOG_LEVEL, WEB_LOG
 
-logger = logging.getLogger('vulnscannerflask')
+logger = logging.getLogger('vulscanner')
 level  = logging.getLevelName(LOG_LEVEL)
 logger.setLevel(level)
 

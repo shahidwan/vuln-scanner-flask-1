@@ -29,6 +29,7 @@ class SchemaParser:
       networks = self.data['targets']['networks']
       excluded_networks = self.data['targets']['excluded_networks']
       domains = self.data['targets']['domains']
+      urls = self.data['targets'].get('urls', [])
       
       # Scan Definition
       name = self.data['config']['name']
@@ -65,6 +66,10 @@ class SchemaParser:
       
       if not isinstance(domains, list):
         error = 'Option [DOMAINS] must be an Array'
+        verified = False
+      
+      if not isinstance(urls, list):
+        error = 'Option [URLS] must be an Array'
         verified = False
 
       if not isinstance(intrusive_level, int):
@@ -168,8 +173,8 @@ class SchemaParser:
             error = 'Option [CUSTOM_PORTS] must be an array of values between 0-65535'
             verified = False
         
-      if not networks and not domains:
-        error = 'Options [DOMAINS] or Options [NETWORKS] must not be empty'
+      if not networks and not domains and not urls:
+        error = 'At least one target must be provided: [DOMAINS], [NETWORKS], or [URLS]'
         verified = False
         
       if networks:
@@ -198,6 +203,12 @@ class SchemaParser:
         for domain in domains:
           if not self.netutils.is_dns(domain):
             error = 'Option [DOMAINS] must contain valid domains (and they must be resolveable!)'
+            verified = False
+      
+      if urls:
+        for url in urls:
+          if not self.utils.is_string_url(url):
+            error = 'Option [URLS] must contain valid URLs'
             verified = False
       
       if net_interface:
@@ -282,6 +293,9 @@ class ConfParser:
   
   def get_cfg_domains(self):
     return self.values['targets']['domains']
+  
+  def get_cfg_urls(self):
+    return self.values['targets'].get('urls', [])
   
   def get_cfg_aggressive_lvl(self):
     return self.values['config']['allow_aggressive']

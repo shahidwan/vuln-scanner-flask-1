@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% if status != "Ready" %}<meta http-equiv="refresh" content="60; URL=/dashboard">{% endif %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>vulnscannerflask</title>
+    <title>vulscanner</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link href={{ url_for('static', filename="vendor/bootstrap4/css/bootstrap.min.css") }}  rel="stylesheet">
     <link href={{ url_for('static', filename="vendor/toastr/toastr.min.css") }}  rel="stylesheet">
-    <link href={{ url_for('static', filename="css/vulnscannerflask.css") }}  rel="stylesheet">
+    <link href={{ url_for('static', filename="css/vulscanner.css") }}  rel="stylesheet">
     <link href={{ url_for('static', filename="css/master.css") }}  rel="stylesheet">
     <link href={{ url_for('static', filename="vendor/chartsjs/Chart.min.css") }}  rel="stylesheet">
 </head>
@@ -27,7 +27,7 @@
                                     <a href="" class="nav-item nav-link dropdown-toggle" data-toggle="dropdown"><i class="fas fa-user-shield"></i> <i style="font-size: .8em;" class="fas fa-caret-down"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right nav-link-menu">   
                                         <ul class="nav-list">
-                                          <li><a href="https://github.com/krishpranav/vuln-scanner-flask/issues" class="dropdown-item"><i class="fas fa-bug"></i> Report a Bug</a></li>
+                                          <li><a href="https://github.com/obaidlone/website-scanner" class="dropdown-item"><i class="fas fa-bug"></i> Report a Bug</a></li>
                                           <li><a href="/settings" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a></li>
                                           <div class="dropdown-divider"></div>
                                           <li><a href="/logout" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
@@ -98,7 +98,7 @@
                                       <div class="col-sm-8">
                                           <div class="detail text-center">
                                               <p>Scans Executed</p>
-                                              <span class="number">{{scan_count.decode('utf-8')}}</span>
+                                              <span class="number">{{scan_count}}</span>
                                           </div>
                                       </div>
                                   </div>
@@ -123,7 +123,7 @@
                                       <div class="col-sm-8">
                                           <div class="detail text-center">
                                               <p>Last Scanned</p>
-                                              <span class="number"><span style="font-size:17px"><b>{{last_scan.decode('utf-8')}}</b></span></span>
+                                              <span class="number"><span style="font-size:17px"><b>{{last_scan}}</b></span></span>
                                           </div>
                                       </div>
                                   </div>

@@ -1,0 +1,380 @@
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+  <link href="https://fonts.googleapis.com/css2?family=Recursive:wght@600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+      body {
+          background-color: #293142;
+          color: #333;
+          margin: 0 auto;
+          width: 960px;
+          font-family:Verdana, Geneva, Tahoma, sans-serif
+
+      }
+      h1, h2, h3, h4 {
+          color:white;
+          font-family: 'Recursive', sans-serif;
+      }
+      .headerdiv{
+
+          background-size:cover;
+          display:flex;
+          flex-flow:row nowrap;
+          justify-content:center;
+      }
+      .headerdiv h1{
+          padding:20px 0 10px 20px;
+          color:white;
+          font-family: 'Recursive', sans-serif;
+      }
+
+      .details{
+          font-family: monospace;
+
+      }
+      .overviewDiv{
+          display:flex;
+          flex-flow:row nowrap;
+          margin-top:20px;
+      }
+      #summary{ 
+          width:100%;
+      }
+      #overview {
+          width:95%;
+          border-top-left-radius: 2em;
+          border-bottom-right-radius: 2em;
+          overflow: hidden;
+      
+      }
+      #overview th {
+          background-color:#13869A;
+          padding: 5px 12px;
+          color:white;
+      }
+      #overview td {
+          background-color:lightgrey;
+          padding:5px 12px;
+          font-family:monospace;
+      }
+      #overview td:hover{
+          background-color:white;
+      }
+      
+      #summary {
+          border-top-left-radius: 2em;
+          border-bottom-right-radius: 2em;
+          overflow: hidden;
+      }
+
+      #summary th {
+          background-color:#13869A;
+          padding: 5px 12px;
+          color:white;
+      }
+
+      #summary td {
+          background-color:darkgrey;
+          text-align: center;
+          padding: 4px 8px;
+          font-family:monospace;
+          font-size:15px;
+      }
+      #summary tr:nth-child(even) td{
+          background-color:lightgrey;
+      }
+      #summary tr:nth-child(even) td:hover{
+          background-color:white;
+      }
+      #summary td:hover {
+          background-color:white;
+      }
+
+      #details{
+          border-top-left-radius: 2em;
+          overflow: hidden;
+      }
+
+      #details th {
+          padding: 5px 12px;
+      }
+      #details tr:nth-child(even) td{
+          background-color:darkgrey;
+      }
+      #details tr:nth-child(even) td:hover{
+          background-color:white;
+      }
+
+      #details .sev_4 {
+          background-color:#ff6666;
+      }
+      #details .sev_3 {
+          background-color:#ff9b8b;
+      }
+      #details .sev_2 {
+          background-color:#ffffcc;
+      }
+      #details .sev_1 {
+          background-color:#88eeaa;
+      }
+      #details .sev_0 {
+          background-color:lightblue;
+      }
+
+      #details td {
+          background-color: lightgrey;
+          padding: 5px 12px;
+          font-family:monospace;
+          font-size:15px;
+      }
+      
+
+      #details td:hover{
+          background-color:white;
+      }
+
+
+      footer p{
+          font-size:12px;
+          color:white;
+      }
+      
+  </style>
+</head>
+
+<body>
+<div class='headerdiv'>
+  <h1>vulscanner <span style="font-size:10px">2.5.5</span></h1>
+</div>
+<h2>Overview</h2>
+<div class='overviewDiv'>
+
+  <div style='width:50%'>
+      <table id="overview">
+          <tr>
+              <th>TIMESTAMP</th>
+              <td colspan="5">2025-09-24 11:18:22</td>
+          </tr>
+          <tr>
+            <th>ID</th>
+            <td colspan="5">6169D96A</td>
+        </tr>
+          <tr>
+            <th>NAME</th>
+            <td colspan="5">Default</td>
+        </tr>
+          <tr>
+              <th>ENGINEER</th>
+              <td colspan="5">John Doe</td>
+          </tr>
+          <tr>
+            <th>SOURCE IP</th>
+            <td colspan="5">127.0.0.1</td>
+        </tr>
+      </table>
+  </div>
+
+  <div style='width:50%;'>
+  
+
+  <table id='summary'>
+      <tr>
+          <th>CRITICAL</th>
+          <td>0</td>
+      </tr>
+      <tr>
+          <th>HIGH</th>
+          <td>0</td>
+      </tr>
+      <tr>
+          <th>MEDIUM</th>
+          <td>4</td>
+      </tr>
+      <tr>
+          <th>LOW</th>
+          <td>1</td>
+      </tr>
+      <tr>
+          <th>INFO</th>
+          <td>0</td>
+      </tr>
+
+  </table>
+  </div>
+
+
+</div>
+
+<h2>Vulnerabilities</h2>
+<table id="details">
+  
+  
+  
+  <tr>
+      <th class='sev_2'>TITLE</th>
+      <th class='sev_2'>The X-Frame-Options security header is missing</th>
+  </tr>
+  <tr>
+      <th class='sev_2'>FINDINGS</th>
+      <td></td>
+  </tr>
+
+  <tr>
+      <th class='sev_2'>ADDRESS</th>
+      <td>www.hackthebox.com </td>
+  </tr>
+  <tr>
+    <th class='sev_2'>PORT</th>
+    <td>443</td>
+</tr>
+  <tr>
+      <th class='sev_2'>DETAILS</th>
+      <td class='details'>Missing X-Frame-Options header</td>
+  </tr>
+  <tr>
+    <th class='sev_2'>RULE_ID</th>
+    <td>basic_header_x_frame_options</td>
+</tr>
+  <tr>
+      <th class='sev_2'>MITIGATION</th>
+      <td></td>
+  </tr>
+  
+  
+  
+  <tr>
+      <th class='sev_2'>TITLE</th>
+      <th class='sev_2'>The X-Content-Type-Options security header is missing</th>
+  </tr>
+  <tr>
+      <th class='sev_2'>FINDINGS</th>
+      <td></td>
+  </tr>
+
+  <tr>
+      <th class='sev_2'>ADDRESS</th>
+      <td>www.hackthebox.com </td>
+  </tr>
+  <tr>
+    <th class='sev_2'>PORT</th>
+    <td>443</td>
+</tr>
+  <tr>
+      <th class='sev_2'>DETAILS</th>
+      <td class='details'>Missing X-Content-Type-Options header</td>
+  </tr>
+  <tr>
+    <th class='sev_2'>RULE_ID</th>
+    <td>basic_header_x_content_type_options</td>
+</tr>
+  <tr>
+      <th class='sev_2'>MITIGATION</th>
+      <td></td>
+  </tr>
+  
+  
+  
+  <tr>
+      <th class='sev_2'>TITLE</th>
+      <th class='sev_2'>The X-XSS-Protection security header is missing</th>
+  </tr>
+  <tr>
+      <th class='sev_2'>FINDINGS</th>
+      <td></td>
+  </tr>
+
+  <tr>
+      <th class='sev_2'>ADDRESS</th>
+      <td>www.hackthebox.com </td>
+  </tr>
+  <tr>
+    <th class='sev_2'>PORT</th>
+    <td>443</td>
+</tr>
+  <tr>
+      <th class='sev_2'>DETAILS</th>
+      <td class='details'>Missing X-XSS-Protection header</td>
+  </tr>
+  <tr>
+    <th class='sev_2'>RULE_ID</th>
+    <td>basic_header_x_xss_protection</td>
+</tr>
+  <tr>
+      <th class='sev_2'>MITIGATION</th>
+      <td></td>
+  </tr>
+  
+  
+  
+  <tr>
+      <th class='sev_2'>TITLE</th>
+      <th class='sev_2'>The Content-Security-Policy security header is missing</th>
+  </tr>
+  <tr>
+      <th class='sev_2'>FINDINGS</th>
+      <td></td>
+  </tr>
+
+  <tr>
+      <th class='sev_2'>ADDRESS</th>
+      <td>www.hackthebox.com </td>
+  </tr>
+  <tr>
+    <th class='sev_2'>PORT</th>
+    <td>443</td>
+</tr>
+  <tr>
+      <th class='sev_2'>DETAILS</th>
+      <td class='details'>Missing CSP header</td>
+  </tr>
+  <tr>
+    <th class='sev_2'>RULE_ID</th>
+    <td>basic_header_content_security_policy</td>
+</tr>
+  <tr>
+      <th class='sev_2'>MITIGATION</th>
+      <td></td>
+  </tr>
+  
+  
+  
+  <tr>
+      <th class='sev_1'>TITLE</th>
+      <th class='sev_1'>Server header reveals information about the web server</th>
+  </tr>
+  <tr>
+      <th class='sev_1'>FINDINGS</th>
+      <td></td>
+  </tr>
+
+  <tr>
+      <th class='sev_1'>ADDRESS</th>
+      <td>www.hackthebox.com </td>
+  </tr>
+  <tr>
+    <th class='sev_1'>PORT</th>
+    <td>443</td>
+</tr>
+  <tr>
+      <th class='sev_1'>DETAILS</th>
+      <td class='details'>Server information disclosure</td>
+  </tr>
+  <tr>
+    <th class='sev_1'>RULE_ID</th>
+    <td>basic_server_disclosure</td>
+</tr>
+  <tr>
+      <th class='sev_1'>MITIGATION</th>
+      <td></td>
+  </tr>
+  
+  
+  
+
+
+</table>
+
+<footer>
+  <center><p>vulscanner</p></center>
+</footer>
+</body>

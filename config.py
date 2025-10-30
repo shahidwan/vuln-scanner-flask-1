@@ -1,15 +1,15 @@
 import os
 
 # Logger Configuration
-LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'DEBUG'
 
 # Webserver Configuration
 WEB_HOST = '0.0.0.0'
 WEB_PORT = 8080
-WEB_DEBUG = False
-WEB_USER = os.environ.get('username', 'admin')
-WEB_PASSW = os.environ.get('password', 'admin')
-WEB_LOG = 'vulnscannerflask.log'
+WEB_DEBUG = True
+WEB_USER = os.environ.get('WEB_USER', 'admin')
+WEB_PASSW = os.environ.get('WEB_PASSW', 'admin')
+WEB_LOG = 'vulscanner.log'
 
 # Web Security
 # Setting this to True will return all responses with security headers.
@@ -20,7 +20,7 @@ WEB_SEC_HEADERS = {
   'XSS':'1; mode=block',
   'XFO':'DENY',
   'RP':'no-referrer',
-  'Server':'vulnscannerflask'
+  'Server':'vulscanner'
 }
 
 # Maximum allowed attempts before banning the remote origin
@@ -32,8 +32,21 @@ RDS_HOST = '127.0.0.1'
 RDS_PORT = 6379
 RDS_PASSW = None
 
+# PostgreSQL Database Configuration
+DB_PORT = os.environ.get('DB_PORT', '5432')
+DB_NAME = os.environ.get('DB_NAME', 'vulnscanner')
+DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
+
+# Get the directory where this config file is located
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_URL = f"sqlite:///{os.path.join(BASE_DIR, 'vulnscanner.db')}"
+
+# Database settings
+USE_DATABASE = True
+DB_ECHO = False  # Set to False to reduce log verbosity
+
 # Scan Configuration
-USER_AGENT = 'vulnscannerflask'
+USER_AGENT = 'vulscanner'
 
 # Default scan configuration
 # This will be used in the "Quick Start" scan. 
@@ -41,7 +54,8 @@ DEFAULT_SCAN = {
   'targets':{
     'networks':[],
     'excluded_networks':[],
-    'domains':[]
+    'domains':[],
+    'urls':[]
   },
   'config':{
     'name':'Default',

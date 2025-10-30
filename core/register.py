@@ -24,11 +24,18 @@ class Register:
     
     networks = cfg.get_cfg_networks()
     domains = cfg.get_cfg_domains()
+    urls = cfg.get_cfg_urls()
     
     if networks:
       logger.info('Scheduling network(s): {}'.format(', '.join(networks)))
     
     if domains:
-      logger.info('Scheduling domains(s): {}'.format(', '.join(domains)))
+      logger.info('Scheduling domain(s): {}'.format(', '.join(domains)))
+    
+    if urls:
+      logger.info('Scheduling URL(s): {}'.format(', '.join(urls)))
+      # For URL scanning, we'll store the URLs directly for the OWASP scanner
+      for url in urls:
+        self.rds.store('url_' + self.utils.hash_sha1(url), url)
     
     return (True, 200, 'Registered a new scan successfully!')

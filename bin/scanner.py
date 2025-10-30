@@ -3,10 +3,12 @@ import time
 from core.redis   import rds
 from core.logging import logger
 from core.port_scanner import Scanner
+from core.url_scanner import URLScanner
 from core.parser import ConfParser
 
 def scanner():
-  scanner = Scanner()
+  port_scanner = Scanner()
+  url_scanner = URLScanner()
   
   logger.info('Scanner process started')
   
@@ -22,12 +24,19 @@ def scanner():
       continue
     
     c = ConfParser(conf)
+    
+    # Check for URLs to scan
+    urls_to_scan = url_scanner.get_urls_to_scan()
+    if urls_to_scan:
+      logger.info(f'Starting URL vulnerability scan for {len(urls_to_scan)} URLs')
+      url_scanner.scan_urls(urls_to_scan, conf)
+      continue
 
     hosts = rds.get_ips_to_scan(limit = c.get_cfg_scan_threads())
 
     if hosts:
       conf = rds.get_scan_config()
-      scan_data = scanner.scan(hosts, 
+      scan_data = port_scanner.scan(hosts, 
                           max_ports = c.get_cfg_max_ports(),
                           custom_ports = c.get_cfg_custom_ports(),
                           interface = c.get_cfg_netinterface())

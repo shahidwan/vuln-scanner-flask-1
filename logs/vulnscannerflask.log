@@ -1,4 +1,3 @@
-2023-01-16 18:26:20,035 - INFO - 7038 - Storing the new configuration
-2023-01-16 18:26:20,037 - INFO - 7038 - Scheduling network(s): 192.168.0.102
-2023-01-16 18:26:20,037 - INFO - 7038 - A scan was initiated
-2023-01-16 18:26:29,140 - INFO - 7038 - Starting a new session...
+2025-09-24 11:27:36,113 - INFO - 3088 - Attacker process started
+2025-09-24 11:27:36,113 - INFO - 3088 - Scheduler process started
+2025-09-24 11:27:36,281 - INFO - 3088 - Scanner process started

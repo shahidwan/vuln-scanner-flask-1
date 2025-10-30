@@ -1,6 +1,7 @@
 from core.utils import Utils
 from core.redis import rds
 from core.security import verify_password
+from core.database import db_manager
 
 from flask import (
   Blueprint, 
@@ -27,6 +28,14 @@ def view_login():
     
     if verify_password(username, password):
       session['session'] = username
+      # Log login via view (in addition to security log)
+      db_manager.log_user_activity(
+        username=username,
+        action='LOGIN',
+        details={'method': 'form_login'},
+        ip_address=request.remote_addr,
+        user_agent=request.headers.get('User-Agent')
+      )
       return redirect('/')
     else:
       return render_template('login.html', err='Incorrect username or password. \

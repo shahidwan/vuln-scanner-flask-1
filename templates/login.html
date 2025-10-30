@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>vulnscannerflask</title>
+    <title>VulScanner</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link href={{ url_for('static', filename="vendor/bootstrap4/css/bootstrap.min.css") }}  rel="stylesheet">
     <link href={{ url_for('static', filename="css/auth.css") }}  rel="stylesheet">
     <link href={{ url_for('static', filename="vendor/toastr/toastr.min.css") }}  rel="stylesheet">
-    
+
 </head>
 <body>
     <div class="wrapper">
@@ -17,9 +17,8 @@
             <div class="card">
                 <div class="card-body text-center">
                     <div class="mb-4">
-                        <img class="brand" src="static/img/vulnscannerflask_logo_black.png" width="30%" height="30%">
+                        <div class="brand-text" style="font-family: 'Arial Black', Arial, sans-serif; font-size: 36px; font-weight: bold; color: #333; text-align: center; padding: 20px; margin: 20px 0; letter-spacing: 3px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">VulScanner</div>
                         <br>
-                        <span style="font-size:10px"><b>Powered  by  <a href="https://github.com/krishpranav">krishpranav</a></b></span>
                     </div>
                     <form action="/login" method="POST">
                         <div class="form-group">
@@ -29,14 +28,14 @@
                             <input type="password" class="form-control" name="password" placeholder="Password" required>
                         </div>
                         <button class="btn btn-primary shadow-2 mb-4">Login</button>
-                        <br>
+                        <p class="mb-2 text-muted">Don't have an account? <a href="/signup" class="text-primary">Sign up here</a></p>
                         {% if err %}
                         <span style="color:red">Error: {{err}}</span>
                         {% endif %}
 
                         {% if msg == "New Version is Available" %}
                             <span style="color:darkorange; font-weight:bold">{{msg}}!</a></span><br>
-                            <span style="color:orange"><a href="https://github.com/krishpranav/vuln-scanner-flask">Download</a></span>
+                            <span style="color:orange"><a href="https://github.com/obaidlone/website-scanner">Download</a></span>
                         {% endif %}
                         <br>
                     </form>
@@ -44,7 +43,7 @@
             </div>
         </div>
     </div>
-    
+
     <script src={{ url_for('static', filename="vendor/jquery3/jquery-3.4.1.min.js") }}></script>
     <script src={{ url_for('static', filename="vendor/bootstrap4/js/bootstrap.bundle.min.js") }}></script>
     <script src={{ url_for('static', filename="vendor/bootstrap4/js/bootstrap.min.js") }}></script>

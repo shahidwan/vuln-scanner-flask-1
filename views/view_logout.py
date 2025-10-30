@@ -1,9 +1,11 @@
 from core.security import session_required
+from core.database import db_manager
 from flask import (
   Blueprint,   
   redirect,
   flash,
-  session
+  session,
+  request
 )
 
 logout = Blueprint('logout', __name__,
@@ -12,7 +14,17 @@ logout = Blueprint('logout', __name__,
 @logout.route('/logout')
 @session_required
 def view_logout():
-  if session.get('session'):
+  username = session.get('session')
+  
+  if username:
+    # Log logout activity
+    db_manager.log_user_activity(
+      username=username,
+      action='LOGOUT',
+      details={'method': 'manual_logout'},
+      ip_address=request.remote_addr,
+      user_agent=request.headers.get('User-Agent')
+    )
     session.pop('session')
 
   flash('Logged out successfully', 'success')

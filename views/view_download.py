@@ -28,9 +28,8 @@ def view_download(file):
   
   if file == 'server_log':
     response = send_from_directory(directory='logs', 
-                                    filename=config.WEB_LOG,
-                                    as_attachment=True,
-                                    cache_timeout=0)
+                                    path=config.WEB_LOG,
+                                    as_attachment=True)
     return response
   
   else:
@@ -44,30 +43,26 @@ def view_download(file):
     if file == 'report_html':  
       report_file = generate_html(data, conf)
       response = send_from_directory(directory='reports', 
-                                      filename=report_file,
-                                      as_attachment=True,
-                                      cache_timeout=0)
+                                      path=report_file,
+                                      as_attachment=True)
       return response
     
     elif file == 'report_txt':
       report_file = generate_txt(data)
       response = send_from_directory(directory='reports', 
-                                      filename=report_file,
-                                      as_attachment=True,
-                                      cache_timeout=0)
+                                      path=report_file,
+                                      as_attachment=True)
       return response
     elif file == 'report_csv':
       report_file = generate_csv(data)
       response = send_from_directory(directory='reports', 
-                                      filename=report_file,
-                                      as_attachment=True,
-                                      cache_timeout=0)
+                                      path=report_file,
+                                      as_attachment=True)
       return response
 
     elif file == 'report_xml':
       report_file = generate_xml(data)
       response = send_from_directory(directory='reports', 
-                                      filename=report_file,
-                                      as_attachment=True,
-                                      cache_timeout=0)
+                                      path=report_file,
+                                      as_attachment=True)
       return response

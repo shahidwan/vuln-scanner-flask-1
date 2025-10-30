@@ -3,20 +3,34 @@ import sys
 import redis
 import threading
 import pickle
+import uuid
 
 from core.logging import logger
 from core.utils   import Utils
+
+# Import database manager
+try:
+  from core.database import db_manager
+  DATABASE_AVAILABLE = True
+except ImportError:
+  DATABASE_AVAILABLE = False
+  db_manager = None
 
 class RedisManager:
   def __init__(self):
     self.utils = Utils()
     self.r = None
+    self.is_mock = False
     try:
       self.conn_pool = redis.ConnectionPool(host=config.RDS_HOST, port=config.RDS_PORT, password=config.RDS_PASSW, db=0)
       self.r = redis.Redis(connection_pool=self.conn_pool)
-    except TimeoutError:
-      logger.error('Redis Connection Timed Out!')
-      sys.exit(1)
+      # Test the connection
+      self.r.ping()
+    except (redis.ConnectionError, redis.TimeoutError, TimeoutError, OSError) as e:
+      logger.warning(f'Redis not available ({e}), falling back to mock implementation')
+      from core.mock_redis import MockRedis
+      self.r = MockRedis()
+      self.is_mock = True
   
   def store(self, key, value):
     res = self.r.set(key, value)
@@ -55,7 +69,16 @@ class RedisManager:
     
     logger.info('Vulnerability detected')
     
+    # Store in Redis for session management
     self.store_json(key_hash, value)
+    
+    # Also store in PostgreSQL database if available
+    if DATABASE_AVAILABLE and db_manager and db_manager.connected:
+      try:
+        session_id = self.get_current_session_id()
+        db_manager.store_vulnerability(session_id, value)
+      except Exception as e:
+        logger.error(f'Error storing vulnerability in database: {e}')
     
   def store_sca(self, key, value):
     key = 'sca_' + key
@@ -168,10 +191,20 @@ class RedisManager:
     return {}
     
   def get_last_scan(self):
-    return self.r.get('p_last-scan')
+    result = self.r.get('p_last-scan')
+    if result is None:
+      return 'N/A'
+    if isinstance(result, bytes):
+      return result.decode('utf-8')
+    return str(result)
   
   def get_scan_count(self):
-    return self.r.get('p_scan-count')
+    result = self.r.get('p_scan-count')
+    if result is None:
+      return 0
+    if isinstance(result, bytes):
+      return int(result.decode('utf-8'))
+    return int(result)
   
   def is_attack_active(self):
     for i in threading.enumerate():
@@ -185,26 +218,62 @@ class RedisManager:
   def is_session_active(self): 
     if self.is_scan_active() or self.is_attack_active():
       return True
+    # Check if there are URLs to scan
+    for key in self.r.scan_iter(match="url_*"):
+      return True  # Found URL targets, session is active
     return False
   
   def get_session_state(self):
     state = self.r.get('sess_state')
     if state:
-      return state.decode('utf-8')
+      if isinstance(state, bytes):
+        return state.decode('utf-8')
+      return str(state)
     return None
   
   def create_session(self):
+    # Generate unique session ID
+    session_id = str(uuid.uuid4())
+    self.store('sess_id', session_id)
     self.store('sess_state', 'created')
     self.r.incr('p_scan-count')
     self.r.set('p_last-scan', self.utils.get_datetime())
+    
+    # Create session in database if available
+    if DATABASE_AVAILABLE and db_manager and db_manager.connected:
+      try:
+        config_data = self.get_scan_config()
+        engineer = config_data.get('config', {}).get('engineer', 'Unknown')
+        description = config_data.get('config', {}).get('description', 'Quick Scan')
+        db_manager.create_scan_session(session_id, config_data, 'quick', engineer, description)
+      except Exception as e:
+        logger.error(f'Error creating database session: {e}')
     
   def start_session(self):
     logger.info('Starting a new session...')
     self.store('sess_state', 'running')
     
+    # Update database session status
+    if DATABASE_AVAILABLE and db_manager and db_manager.connected:
+      try:
+        session_id = self.get_current_session_id()
+        if session_id:
+          db_manager.update_scan_status(session_id, 'running')
+      except Exception as e:
+        logger.error(f'Error updating database session status: {e}')
+    
   def end_session(self):
     logger.info('The session has ended.')
     self.store('sess_state', 'completed')
+    
+    # Update database session status
+    if DATABASE_AVAILABLE and db_manager and db_manager.connected:
+      try:
+        session_id = self.get_current_session_id()
+        if session_id:
+          db_manager.update_scan_status(session_id, 'completed')
+      except Exception as e:
+        logger.error(f'Error updating database session status: {e}')
   
   def clear_session(self):
     for prefix in ('vuln', 'sca', 'sch', 'inv'):
@@ -246,6 +315,15 @@ class RedisManager:
     
   def flushdb(self):
     self.r.flushdb()
+  
+  def get_current_session_id(self):
+    """Get the current session ID"""
+    session_id = self.r.get('sess_id')
+    if session_id:
+      if isinstance(session_id, bytes):
+        return session_id.decode('utf-8')
+      return str(session_id)
+    return None
 
   def delete(self, key):
     self.r.delete(key)
